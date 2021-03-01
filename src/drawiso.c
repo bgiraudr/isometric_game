@@ -6,7 +6,7 @@
 extern bopti_image_t img_1;
 extern bopti_image_t img_2;
 extern bopti_image_t img_3;
-extern bopti_image_t img_9;
+extern bopti_image_t img_3;
 
 void draw_map_at(int map[], int posx, int posy, int width) {
     int j = 0;
@@ -23,7 +23,7 @@ void draw_map_at(int map[], int posx, int posy, int width) {
                 draw_from_bottom(x,j,posx,posy,&img_3,16);
                 break;
             case 9:
-                draw_iso(x,j,posx,posy,&img_9);
+                draw_iso(x,j,posx,posy,&img_3);
                 break;
         }
         x++;
@@ -97,7 +97,7 @@ void draw_map_player(int map[], int indx, int indy, int taillemap) {
                 draw_from_bottom(x,y,150,60,&img_3,16);
                 break;
             case 9:
-                draw_iso(x,y,150,60,&img_9);
+                draw_iso(x,y,150,60,&img_3);
                 break;
         }
         x++;

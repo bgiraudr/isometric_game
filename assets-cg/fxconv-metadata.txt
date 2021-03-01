@@ -1,0 +1,12 @@
+1.png:
+  type: bopti-image
+  name: img_1
+2.png:
+  type: bopti-image
+  name: img_2
+3.png:
+  type: bopti-image
+  name: img_3
+player.png:
+  type: bopti-image
+  name: img_player
