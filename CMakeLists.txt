@@ -7,6 +7,7 @@ project(MyAddin)
 include(GenerateG1A)
 include(GenerateG3A)
 include(Fxconv)
+include_directories(include)
 find_package(Gint 2.1 REQUIRED)
 
 set(SOURCES
@@ -33,10 +34,7 @@ add_executable(myaddin ${SOURCES} ${ASSETS} ${ASSETS_${FXSDK_PLATFORM}})
 target_compile_options(myaddin PRIVATE -Wall -Wextra -Os)
 target_link_libraries(myaddin Gint::Gint)
 
-if("${FXSDK_PLATFORM_LONG}" STREQUAL fx9860G)
-  generate_g1a(TARGET myaddin OUTPUT "MyAddin.g1a"
-    NAME "MyAddin" ICON assets-fx/icon.png)
-elseif("${FXSDK_PLATFORM_LONG}" STREQUAL fxCG50)
+if("${FXSDK_PLATFORM_LONG}" STREQUAL fxCG50)
   generate_g3a(TARGET myaddin OUTPUT "isometric.g3a"
     NAME "isometri" ICONS assets-cg/icon-uns.png assets-cg/icon-sel.png)
 endif()

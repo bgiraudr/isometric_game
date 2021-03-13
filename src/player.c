@@ -6,5 +6,5 @@
 extern bopti_image_t img_player;
 
 void draw_player(int posx, int posy) {
-	draw_iso(posx,posy,150,60,&img_player);
+	dimage(150+(-posy*tile+posx*tile),60+((posx*tile/2)+(posy*tile/2)),&img_player);
 }

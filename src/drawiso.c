@@ -6,33 +6,15 @@
 extern bopti_image_t img_1;
 extern bopti_image_t img_2;
 extern bopti_image_t img_3;
-extern bopti_image_t img_3;
 
-void draw_map_at(tile_t map[], int posx, int posy, int width) {
-	int j = 0;
-	int x = 0;
-	for(int i=0; i < width; i++) {
-		switch(map[i]) {
-			case 1:
-				draw_iso(x,j,posx,posy,&img_1);
-				break;
-			case 2:
-				draw_iso(x,j,posx,posy,&img_2);
-				break;
-			case 3:
-				draw_from_bottom(x,j,posx,posy,&img_3,16);
-				break;
-			case 9:
-				draw_iso(x,j,posx,posy,&img_3);
-				break;
-		}
-		x++;
-		if(!(i%level_width) && i != 0) { j++; x = 0; }
-	}
-	dupdate();
-}
-
-void draw_map_player(tile_t map[], int indx, int indy, int taillemap) {
+/* generate and draw the map around the player (player_view)
+ * @param map : the map you want to draw
+ * @param indx : the virtual x position of the player
+ * @param indy : the virtual y position of the player
+ * @param taillemap : the length of the map
+ * @param isometric : 0 = top view, 1 = isometric view
+ */
+void draw_map_player(int map[], int indx, int indy, int taillemap, char isometric) {
 	int j = 0;
 	int x = 0;
 
@@ -88,16 +70,13 @@ void draw_map_player(tile_t map[], int indx, int indy, int taillemap) {
 		int y = j + (2-ycentre);
 		switch(map[i]) {
 			case 1:
-				draw_iso(x,y,150,60,&img_1);
+				draw(x,y,isometric,&img_1,0);
 				break;
 			case 2:
-				draw_iso(x,y,150,60,&img_2);
+				draw(x,y,isometric,&img_2,0);
 				break;
-			case 3:
-				draw_from_bottom(x,y,150,60,&img_3,16);
-				break;
-			case 9:
-				draw_iso(x,y,150,60,&img_3);
+            case 3:
+				draw(x,y,isometric,&img_3,16);
 				break;
 		}
 		x++;
@@ -109,10 +88,17 @@ void draw_map_player(tile_t map[], int indx, int indy, int taillemap) {
 	}
 }
 
-void draw_iso(int i, int j, int posx, int posy, bopti_image_t *image) {
-	dimage(posx+(-j*tile+i*tile),posy+((i*tile/2)+(j*tile/2)),image);
-}
-
-void draw_from_bottom(int i, int j, int posx, int posy, bopti_image_t *image, int height) {
-	draw_iso(i,j,posx,posy-height,image);
+/* draw at a certain position the block depends of the type of view
+ * @param posx : where to draw on the x axis
+ * @param posy : where to draw on the y axis
+ * @param isometric : type of view
+ * @param image : the texture
+ * @param height : draw the block upper. If you need to draw a higher block
+ */
+void draw(int posx, int posy, char isometric, bopti_image_t *image, int height) {
+    if(isometric) {
+        dsubimage(150+(-posy*tile+posx*tile),60-height+((posx*tile/2)+(posy*tile/2)),image,0,0,32,32+height,DIMAGE_NONE);
+    } else {
+        dsubimage(150+(posx-3)*tile*2,60+(posy-1)*tile*2,image,0,32+height,32,32,DIMAGE_NONE);
+    }
 }
